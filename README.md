@@ -39,6 +39,9 @@ But it would also make the mental model more complicated:
   some changes with `db push`, then edited the schema file once more and ran
   `migrate dev` to migrate to the final state of the schema file, which may be
   confusing and/or annoying.
+- `migrate dev --create-only` would leave the database in a weird state
+  where the migration is applied but not recorded as applied, so there would
+  need to be an additional check to ignore or forbid this flag in this case.
 
 To me it feels like these two are separate commands after all but improving
 `migrate dev` ergonomics is also a valid approach.
