@@ -14,7 +14,7 @@ applied in the migrations table.
   --help
 ```
 
-Not an official Prisma project, no guarantees, use at your own risk.
+**Not an official Prisma project, no guarantees, use at your own risk.**
 
 ## Why
 
