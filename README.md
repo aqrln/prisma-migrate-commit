@@ -13,3 +13,5 @@ applied in the migrations table.
   --migrations=<migrations_dir> The path to the migrations directory
   --help
 ```
+
+Not an official Prisma project, no guarantees, use at your own risk.
