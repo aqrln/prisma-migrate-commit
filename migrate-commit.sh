@@ -37,7 +37,8 @@ while [ $# -gt 0 ]; do
             exit 0
             ;;
         *)
-            shift
+            >&2 echo "Error: unexpected argument \`$1\`"
+            exit 1
             ;;
     esac
 done
