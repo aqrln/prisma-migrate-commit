@@ -46,11 +46,6 @@ done
 schema_file="${schema_file:-$(pwd)/prisma/schema.prisma}"
 migrations_directory="${migrations_directory:-$(pwd)/prisma/migrations}"
 
-if [ ! -f "$schema_file" ]; then
-    >&2 echo "Error: \`$schema_file\` not found or not a file."
-    exit 1
-fi
-
 npx prisma migrate diff \
     --from-schema-datasource="$schema_file" \
     --to-schema-datamodel="$schema_file" \
