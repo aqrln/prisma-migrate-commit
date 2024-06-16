@@ -78,7 +78,7 @@ migrate_diff () {
             return 0
             ;;
         *)
-            return $?
+            return $error_code
             ;;
     esac
 }
