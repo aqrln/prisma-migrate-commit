@@ -46,6 +46,17 @@ done
 schema_file="${schema_file:-$(pwd)/prisma/schema.prisma}"
 migrations_directory="${migrations_directory:-$(pwd)/prisma/migrations}"
 
+if [ ! -f "$schema_file" ]; then
+    >&2 echo "Error: \`$schema_file\` not found or not a file."
+    exit 1
+fi
+
+if [ -d "$migrations_directory" ]; then
+    baselining=0
+else
+    baselining=1
+fi
+
 npx prisma migrate diff \
     --from-schema-datasource="$schema_file" \
     --to-schema-datamodel="$schema_file" \
@@ -59,9 +70,15 @@ npx prisma migrate diff \
 echo "Creating migration \`$migration_name\`"
 
 migrate_diff () {
+    if [ $baselining -eq 1 ]; then
+        from_arg="--from-empty"
+    else
+        from_arg="--from-migrations=$migrations_directory"
+    fi
+
     set +e
     npx prisma migrate diff \
-        --from-migrations="$migrations_directory" \
+        "$from_arg" \
         --to-schema-datasource="$schema_file" \
         --exit-code \
         "$@"
