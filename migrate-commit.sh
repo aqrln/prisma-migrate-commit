@@ -62,6 +62,10 @@ if [ -d "$migrations_directory" ]; then
     from_arg="--from-migrations=$migrations_directory"
 else
     from_arg="--from-empty"
+    provider=$(grep -A 3 '^ *datasource ' prisma/schema.prisma | grep '^ *provider *=' | sed -e 's/^ *provider *= *"\(.*\)"/\1/')
+    mkdir -p "$migrations_directory"
+    echo "provider = \"$provider\"" > "$migrations_directory/migration_lock.toml"
+    >&2 echo "Initialized migrations directory at \`$migrations_directory\`"
 fi
 
 migrate_diff () {
