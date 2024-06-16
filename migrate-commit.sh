@@ -51,12 +51,6 @@ if [ ! -f "$schema_file" ]; then
     exit 1
 fi
 
-if [ -d "$migrations_directory" ]; then
-    baselining=0
-else
-    baselining=1
-fi
-
 npx prisma migrate diff \
     --from-schema-datasource="$schema_file" \
     --to-schema-datamodel="$schema_file" \
@@ -69,13 +63,13 @@ npx prisma migrate diff \
 
 echo "Creating migration \`$migration_name\`"
 
-migrate_diff () {
-    if [ $baselining -eq 1 ]; then
-        from_arg="--from-empty"
-    else
-        from_arg="--from-migrations=$migrations_directory"
-    fi
+if [ -d "$migrations_directory" ]; then
+    from_arg="--from-migrations=$migrations_directory"
+else
+    from_arg="--from-empty"
+fi
 
+migrate_diff () {
     set +e
     npx prisma migrate diff \
         "$from_arg" \
